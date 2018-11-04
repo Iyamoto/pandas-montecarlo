@@ -70,7 +70,7 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
             "std": total.std().values.mean(),
             "maxdd": dd.min(),
             "bust": len(dd[dd <= -abs(bust)]) / sims,
-            "goal": (nobust >= abs(goal)).sum().sum() / (sims * len(df.index)),
+            "goal": ((nobust >= abs(goal)).sum() > 0).sum() / sims,
         },
         "maxdd": {
             "min": dd.min(),
