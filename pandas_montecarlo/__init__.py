@@ -57,18 +57,17 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
     df.rename(columns={0:'original'}, inplace=True)
 
     cumsum = df.cumsum()
-    total = cumsum[-1:].T
+    total = cumsum.T
     dd = cumsum.min()[cumsum.min() < 0]
     nobust = cumsum[cumsum.min()[cumsum.min() > -abs(bust)].index][-1:]
 
     return __make_object__(**{
         "data": df,
         "stats": {
-            "min": total.min().values[0],
-            "max": total.max().values[0],
-            "mean": total.mean().values[0],
-            "median": total.median().values[0],
-            "std": total.std().values[0],
+            "min": total.min().values.min(),
+            "max": total.max().values.max(),
+            "mean": total.mean().values.mean(),
+            "std": total.std().values.mean(),
             "maxdd": dd.min(),
             "bust": len(dd[dd <= -abs(bust)]) / sims,
             "goal": (nobust >= abs(goal)).sum().sum() / sims,
